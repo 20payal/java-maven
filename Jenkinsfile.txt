@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    
+    stages {
+         stage('Code checkout') {
+        steps {
+        
+             git 'https://github.com/20payal/java-maven.git'
+           }
+
+       }
+        
+        stage ('Build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+            }
+            post {
+                success {
+                    junit 'pom.xml' 
+                }
+            }
+        }
+    }
+}
